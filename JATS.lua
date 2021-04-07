@@ -19,6 +19,10 @@ local sections = {}
 local back = {}
 local references = {}
 local figures = {}
+local tables = {}
+
+table_num = 0
+figure_num = 0
 
 -- This function is called once for the whole document. Parameters:
 -- body is a string, metadata is a table, variables is a table.
@@ -371,14 +375,19 @@ end
 -- strings, rows is an array of arrays of strings.
 function Table(caption, aligns, widths, headers, rows)
   local buffer = {}
+  table_num = table_num + 1
+
   local function add(s)
     table.insert(buffer, s)
   end
-  table.insert(buffer, '<table-wrap>')
+  table.insert(buffer, string.format('<table-wrap id="table-' .. table_num .. '">'))
+  table.insert(buffer, string.format('<label>Table ' .. table_num .. '</label>'))
+
   if caption ~= '' then
     -- if caption begins with <bold> text, make it the <title>
     caption = string.gsub('<p>' .. caption, "^<p><bold>(.-)</bold>%s", "<title>%1</title>\n<p>")
-    add(xml('caption>', caption))
+    caption = caption .. '</p>'
+    add(xml('caption', caption))
   end
   add("<table>")
   if widths and widths[1] ~= 0 then
@@ -623,9 +632,9 @@ end
 function CaptionedImage(s, src, title)
   -- if title begins with <bold> text, make it the <title>
   title = string.gsub(title, "^<bold>(.-)</bold>%s", function(t) xml('title', t) end)
-  local num = #figures + 1
-  local attr = { ['id'] = string.format("g%03d", num) }
-  local label = xml('label', string.format("Figure %d", num))
+  figure_num = figure_num + 1
+  local attr = { ['id'] = string.format("g%03d", figure_num) }
+  local label = xml('label', string.format("Figure %d", figure_num))
   local titletag = xml('title', title)
   local caption = xml('caption', titletag)
   local fig = xml('fig', label .. caption .. Image(nil, s, title), attr)
