@@ -625,8 +625,10 @@ function CaptionedImage(s, src, title)
   title = string.gsub(title, "^<bold>(.-)</bold>%s", function(t) xml('title', t) end)
   local num = #figures + 1
   local attr = { ['id'] = string.format("g%03d", num) }
-  local caption = xml('caption', s)
-  local fig = xml('fig', caption .. Image(nil, src, title), attr)
+  local label = xml('label', string.format("Figure %d", num))
+  local titletag = xml('title', title)
+  local caption = xml('caption', titletag)
+  local fig = xml('fig', label .. caption .. Image(nil, s, title), attr)
 
   table.insert(figures, fig)
   return fig
@@ -634,10 +636,8 @@ end
 
 function Image(s, src, title)
   local attr = { ['mimetype'] = 'image',
-                 ['xlink:href'] = escape(src),
-                 ['xlink:title'] = escape(title),
-                 ['xlink:type'] = 'simple' }
-
+                 ['mime-subtype'] = 'tiff',
+                 ['xlink:href'] = escape(src)}
   return xml('graphic', s, attr)
 end
 
