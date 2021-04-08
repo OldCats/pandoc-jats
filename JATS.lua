@@ -229,7 +229,7 @@ function section_helper(lev, s, title)
   elseif attr['sec-type'] == "abstract" or attr['sec-type'] == "author-summary" then
     -- discard, should be provided via metadata
   elseif attr['sec-type'] == "supplementary-material" then
-    table.insert(sections, SupplementaryMaterial(s, title))
+    table.insert(sections, SupplementaryMaterial(s, title, attr))
   else
     table.insert(sections, Section(lev, s, title, attr))
   end
@@ -488,10 +488,8 @@ function Section(lev, s, title, attr)
 end
 
 function SupplementaryMaterial(s, title, attr)
-  attr = {}
-  title = xml('title', title)
-  local caption = xml('caption', title .. s)
-  return xml('supplementary-material', '\n' .. caption .. '\n', attr)
+  title = xml('title', title .. s)
+  return xml('supplementary-material', '\n' .. title .. '\n', attr)
 end
 
 function Ack(s, title)
