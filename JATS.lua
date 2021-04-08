@@ -519,7 +519,7 @@ function RefList(s, title)
 
   if #references > 0 then
     title = xml('title', title)
-    return xml('ref-list', title .. table.concat(references, '\n'), attr)
+    return xml('ref-list', title .. table.concat(references, '\n'))
   else
     return ''
   end
