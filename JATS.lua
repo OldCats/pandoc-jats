@@ -471,9 +471,6 @@ function Section(lev, s, title, attr)
   local last = headers[#headers]
   local h = last and last.h or {}
   h[lev] = (h[lev] or 0) + 1
-  for i = lev + 1, #headers do
-    table.remove(h, i)
-  end
 
   local header = { ['h'] = h,
                    ['title'] = title,
@@ -488,8 +485,8 @@ function Section(lev, s, title, attr)
 end
 
 function SupplementaryMaterial(s, title, attr)
-  title = xml('title', title .. s)
-  return xml('supplementary-material', '\n' .. title .. '\n', attr)
+  title = title and '\n' .. xml('title', title) or ''
+  return xml('sec', title .. s)
 end
 
 function Ack(s, title)
