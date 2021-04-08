@@ -258,6 +258,20 @@ copyright:
 
 The `article` and `journal` sections correspond to `<article-meta>` and `<journal-meta>` in JATS. The standard Pandoc metadata `title`, `author` and `date` are supported.
 
+### Figure
+```
+![Philadelphia's Magic Gardens. This place was sosss cool!](/assets/images/philly-magic-gardens.jpg "Philsadelphia's Magic Gardens")
+```
+### Tables
+```
+| Syntax | Description |
+| --- | ----------- |
+| Header | Title |
+| Paragraph | Text |
+Table:**This is Title** This is Caption
+```
+
+
 ### Validation
 The JATS XML should be validated, for example with the excellent [jats-conversion](https://github.com/PeerJ/jats-conversion) tools written by Alf Eaton.
 
